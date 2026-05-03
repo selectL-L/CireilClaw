@@ -18,6 +18,8 @@ async function buildSystemPrompt(
   session: Session,
   capabilities: ChannelCapabilities,
   conditions?: ConditionsConfig,
+  supportsVision?: boolean,
+  supportsVideo?: boolean,
 ): Promise<string> {
   const baseInstructions = await loadBaseInstructions(agentSlug);
   const blocks = await loadBlocks(agentSlug);
@@ -127,8 +129,17 @@ async function buildSystemPrompt(
     `- reactions supported: ${capabilities.supportsReactions}`,
     `- file attachments in respond supported: ${capabilities.supportsAttachments}`,
     `- attachment downloads supported: ${capabilities.supportsDownloadAttachments}`,
-    "</metadata>",
   );
+
+  if (supportsVision === false) {
+    lines.push("- vision supported: false");
+  }
+
+  if (supportsVideo === false) {
+    lines.push("- video supported: false");
+  }
+
+  lines.push("</metadata>");
 
   return lines.join("\n");
 }

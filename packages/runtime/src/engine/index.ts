@@ -257,7 +257,14 @@ export async function runTurn(
       }
     }
 
-    const prompt = await buildSystemPrompt(agentSlug, session, capabilities, conditions);
+    const prompt = await buildSystemPrompt(
+      agentSlug,
+      session,
+      capabilities,
+      conditions,
+      modelCfg.supportsVision,
+      modelCfg.supportsVideo,
+    );
 
     const { modifiedHistory, newCursor } = pruneHistory(
       session.history,
