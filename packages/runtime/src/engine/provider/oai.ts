@@ -308,6 +308,7 @@ function translateTool(tool: Tool): ChatCompletionTool {
 interface Options {
   forceJpeg?: boolean;
   customHeaders?: Record<string, string | string[]>;
+  reasoning?: boolean | string;
   useToolChoiceAuto?: boolean;
   useFilesApi?: "kimi" | false;
 }
@@ -319,7 +320,13 @@ export async function generate(
   apiBase: string,
   keyPool: KeyPool,
   model: string,
-  { forceJpeg = false, customHeaders, useToolChoiceAuto = false, useFilesApi = false }: Options,
+  {
+    forceJpeg = false,
+    customHeaders,
+    reasoning,
+    useToolChoiceAuto = false,
+    useFilesApi = false,
+  }: Options,
 ): Promise<{ message: AssistantMessage; usage?: UsageInfo }> {
   let useJpeg = forceJpeg || jpegRequiredEndpoints.has(apiBase);
   await prepareMedia(context.messages, useJpeg);
@@ -360,6 +367,14 @@ export async function generate(
     tool_choice: "required",
     tools: context.tools.map(translateTool),
   };
+
+  if (reasoning === true) {
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+    (params as unknown as Record<string, unknown>)["reasoning"] = { enabled: true };
+  } else if (typeof reasoning === "string") {
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+    (params as unknown as Record<string, unknown>)["reasoning"] = { effort: reasoning };
+  }
 
   if (
     useToolChoiceAuto ||

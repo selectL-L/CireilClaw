@@ -323,6 +323,7 @@ export async function runTurn(
             {
               customHeaders: selectedProvider.customHeaders,
               forceJpeg: selectedProvider.useJpegForImages,
+              reasoning: modelCfg.reasoning,
               useFilesApi: selectedProvider.useFilesApi,
               useToolChoiceAuto: selectedProvider.useToolChoiceAuto,
             },

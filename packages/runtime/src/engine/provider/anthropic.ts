@@ -280,7 +280,7 @@ function translateTool(tool: Tool): Record<string, unknown> {
 }
 
 interface Options {
-  reasoning?: boolean;
+  reasoning?: boolean | string;
   reasoningBudget?: number;
   customHeaders?: Record<string, string | string[]>;
 }
@@ -311,7 +311,7 @@ export async function generate(
     }),
   };
 
-  if (reasoning && reasoningBudget > 0) {
+  if (reasoning === true && reasoningBudget > 0) {
     // Anthropic rejects tool_choice: any when thinking is enabled.
     body["tool_choice"] = { type: "auto" };
     body["thinking"] = { budget_tokens: reasoningBudget, type: "enabled" };

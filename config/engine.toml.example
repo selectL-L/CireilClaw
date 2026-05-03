@@ -28,7 +28,7 @@ maxTurns = 30
 #
 # models                (optional)  Model-specific overrides, keyed by model name:
 #   [my-provider.models.gpt-4o]
-#   reasoning = true            # Enable reasoning. Default: true
+#   reasoning = true            # Enable reasoning (true/false), or set to an OpenRouter effort level: "xhigh", "high", "medium", "low", "minimal", "none". Default: true
 #   reasoningBudget = 16384     # Token budget for reasoning. Default: 16384
 #   supportsVideo = false       # Video support flag. Default: false
 #   toolFailThreshold = 3       # Max tool failures before giving up. Default: 3
